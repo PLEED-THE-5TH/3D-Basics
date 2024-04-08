@@ -1,13 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://db2lamqkqm8nu"]
+[gd_scene load_steps=7 format=3 uid="uid://db2lamqkqm8nu"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ohjit"]
-size = Vector3(20, 0.005, 20)
+[ext_resource type="Script" path="res://Scripts/Map.cs" id="1_c2ar7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wcpmo"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_wp420"]
+sky_material = SubResource("ProceduralSkyMaterial_wcpmo")
+
+[sub_resource type="Environment" id="Environment_2utw5"]
+background_mode = 2
+sky = SubResource("Sky_wp420")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ey8qk"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_r8y2y"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
 [node name="Map" type="Node3D"]
+script = ExtResource("1_c2ar7")
 
-[node name="Floor" type="Node3D" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2utw5")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(15, 0, 0, 0, 0.005, 0, 0, 0, 15, 0, 0, 0)
+mesh = SubResource("BoxMesh_ey8qk")
+skeleton = NodePath("")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
-shape = SubResource("BoxShape3D_ohjit")
+shape = SubResource("ConcavePolygonShape3D_r8y2y")
