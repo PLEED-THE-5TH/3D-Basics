@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Player : CharacterBody3D
 {
@@ -10,6 +9,7 @@ public partial class Player : CharacterBody3D
     const float sensitivity = 0.01f;
 
     public CharacterBody3D player;
+    public Map map;
     public Node3D head;
     public Camera3D camera;
     private Vector3 velocity = Vector3.Zero;
@@ -17,8 +17,10 @@ public partial class Player : CharacterBody3D
     public override void _Ready()
     {
         player = this;
+        map = GetNode<Map>("Map");
         head = GetNode<Node3D>("Head");
         camera = GetNode<Camera3D>("Head/Camera3D");
+        Input.MouseMode = Input.MouseModeEnum.Captured;
     }
 
     public override void _Input(InputEvent @event)
@@ -36,7 +38,10 @@ public partial class Player : CharacterBody3D
     public override void _PhysicsProcess(double delta)
     {
         Vector2 inputDir = Input.GetVector("MoveLeft", "MoveRight", "MoveForward", "MoveBackward");
-        Vector3 Direction = (GlobalTransform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+        Vector3 localDirection = new Vector3(inputDir.X, 0, inputDir.Y);
+        localDirection = head.GlobalTransform.Basis * (localDirection);
+        localDirection.Y = 0;
+        Vector3 Direction = localDirection.Normalized();
 
         if (Direction != Vector3.Zero) {
             velocity.X = Direction.X * speed;

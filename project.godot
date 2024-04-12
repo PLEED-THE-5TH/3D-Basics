@@ -13,7 +13,14 @@ config_version=5
 config/name="3d Basics"
 run/main_scene="res://Scenes/World.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=320
+window/size/viewport_height=240
+window/size/window_width_override=1280
+window/size/window_height_override=960
+window/stretch/mode="viewport"
 
 [dotnet]
 

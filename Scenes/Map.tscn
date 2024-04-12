@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://db2lamqkqm8nu"]
+[gd_scene load_steps=6 format=3 uid="uid://db2lamqkqm8nu"]
 
 [ext_resource type="Script" path="res://Scripts/Map.cs" id="1_c2ar7"]
+[ext_resource type="MeshLibrary" uid="uid://ooodjfebjdmh" path="res://TileSet.tres" id="2_tnwr3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wcpmo"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -12,13 +13,15 @@ sky_material = SubResource("ProceduralSkyMaterial_wcpmo")
 [sub_resource type="Environment" id="Environment_2utw5"]
 background_mode = 2
 sky = SubResource("Sky_wp420")
+ambient_light_color = Color(0.917647, 0.909804, 0.717647, 1)
+ambient_light_sky_contribution = 0.0
+ambient_light_energy = 0.02
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_ey8qk"]
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_r8y2y"]
-data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+fog_enabled = true
+fog_light_color = Color(0.917647, 0.909804, 0.717647, 1)
+fog_light_energy = 0.02
+fog_density = 0.1
 
 [node name="Map" type="Node3D"]
 script = ExtResource("1_c2ar7")
@@ -26,12 +29,10 @@ script = ExtResource("1_c2ar7")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_2utw5")
 
-[node name="Floor" type="MeshInstance3D" parent="."]
-transform = Transform3D(15, 0, 0, 0, 0.005, 0, 0, 0, 15, 0, 0, 0)
-mesh = SubResource("BoxMesh_ey8qk")
-skeleton = NodePath("")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_r8y2y")
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("2_tnwr3")
+cell_size = Vector3(1, 1, 1)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(2, 65527, 1441793, 65535, 65526, 655362, 2, 65521, 1, 2, 65522, 1441792, 2, 65524, 1441795, 2, 65523, 3, 3, 65524, 655360, 4, 65524, 655360, 5, 65524, 655360, 6, 65524, 655360, 7, 65524, 1441793, 3, 65523, 0, 4, 65523, 0, 5, 65523, 0, 6, 65523, 0, 7, 65523, 1, 1, 65523, 655362, 1, 65521, 0, 1, 65522, 655362, 65534, 65527, 655360, 65534, 65522, 655362, 65533, 65524, 1048576, 65534, 65521, 0, 65533, 65521, 1048577, 65533, 65522, 1048576, 65533, 65523, 1048576, 65534, 65523, 655362, 65535, 65521, 0, 65535, 65522, 655362, 65535, 65523, 655362, 65534, 65524, 655362, 65534, 65525, 655362, 65533, 65525, 1048576, 65533, 65526, 1048576, 65533, 65527, 655361, 65534, 65526, 655362, 65535, 65525, 655362, 65535, 65524, 655362, 0, 65521, 0, 0, 65522, 655362, 0, 65523, 655362, 2, 65526, 1441792, 0, 65531, 1441792, 0, 65529, 1441792, 1, 65527, 655360, 2, 65525, 1441792, 1, 65525, 655362, 1, 65526, 655362, 0, 65527, 1441795, 0, 65528, 1441792, 65535, 65529, 1048576, 1, 65524, 655362, 0, 65524, 655362, 0, 65525, 655362, 0, 65526, 655362, 65535, 65527, 655363, 65535, 65528, 1048576, 65534, 65533, 0, 0, 65530, 1441792, 65535, 65530, 1048576, 65535, 65531, 1048576, 2, 2, 1441793, 2, 1, 1441792, 2, 0, 1441792, 2, 65535, 1441792, 2, 65534, 1441792, 2, 65533, 1, 1, 65533, 0, 1, 65534, 2, 1, 65535, 2, 1, 2, 655360, 1, 1, 2, 1, 0, 2, 0, 65532, 1441792, 0, 65533, 3, 0, 65534, 2, 0, 65535, 2, 0, 0, 2, 0, 1, 2, 0, 2, 655360, 65535, 2, 655360, 65535, 1, 2, 65535, 0, 2, 65535, 65535, 2, 65535, 65534, 2, 65535, 65532, 1048576, 65535, 65533, 1048579, 65534, 2, 655360, 65534, 1, 2, 65534, 0, 2, 65534, 65535, 2, 65534, 65534, 2, 65533, 2, 655361, 65533, 1, 1048576, 65533, 0, 1048576, 65533, 65535, 1048576, 65533, 65534, 1048576, 65533, 65533, 1048577)
+}
